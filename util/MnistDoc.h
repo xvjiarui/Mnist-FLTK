@@ -14,11 +14,14 @@ public:
 	void setUI(MnistUI* ui);
 	~MnistDoc();
 
-	unsigned char* getTrainImage(int index);
+	double* getTrainImage(int index);
 	unsigned char getTrainLabel(int index);
-	unsigned char* getTestImage(int index);
+	double* getTestImage(int index);
 	unsigned char getTestLabel(int index);
+	
+	int getNumTrainImage();
 	int getSizeTrainImage();
+	int getNumTestImage();
 	int getSizeTestImage();
 
 

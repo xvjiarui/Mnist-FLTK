@@ -46,10 +46,13 @@ MnistDoc::~MnistDoc()
 	delete []m_testY;
 }
 
-unsigned char* MnistDoc::getTrainImage(int index)
+double* MnistDoc::getTrainImage(int index)
 {
-	unsigned char* ret = new unsigned char[sizeTrainImage];
-	memcpy(ret, m_trainX[index], sizeTrainImage * sizeof(unsigned char));
+	double* ret = new double[sizeTrainImage];
+    for (int i = 0; i < sizeTrainImage; ++i)
+    {
+        ret[i] = m_trainX[index][i]/255.0;
+    }
 	
 	return ret;
 }
@@ -60,10 +63,13 @@ unsigned char MnistDoc::getTrainLabel(int index)
 	return ret;
 }
 
-unsigned char* MnistDoc::getTestImage(int index)
+double* MnistDoc::getTestImage(int index)
 {
-	unsigned char* ret = new unsigned char[sizeTestImage];
-	memcpy(ret, m_testX[index], sizeTestImage * sizeof(unsigned char));
+	double* ret = new double[sizeTestImage];
+    for (int i = 0; i < sizeTestImage; ++i)
+    {
+        ret[i] = m_testX[index][i]/255.0;
+    }
 
 	return ret;
 }
@@ -73,15 +79,26 @@ unsigned char MnistDoc::getTestLabel(int index)
 	return ret;
 }
 
+int MnistDoc::getNumTrainImage()
+{
+    return numTrainImage;
+}
+
 int MnistDoc::getSizeTrainImage()
 {
 	return sizeTrainImage;
+}
+
+int MnistDoc::getNumTestImage()
+{
+    return numTestImage;
 }
 
 int MnistDoc::getSizeTestImage()
 {
 	return sizeTestImage;
 }
+
 int MnistDoc::reverseInt (int i) 
 {
     unsigned char c1, c2, c3, c4;

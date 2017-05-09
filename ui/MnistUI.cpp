@@ -1,5 +1,6 @@
 #include "MnistUI.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include "util/MnistDoc.h"
 
 Fl_Menu_Item MnistUI::menuItems[] = {
@@ -27,7 +28,7 @@ MnistUI::MnistUI(){
 
 	m_previewImage = new Fl_RGB_Image(m_imageBuffer, 28, 28, 1);
 	m_previewImage->draw(100, 100, 100, 100);
-	m_previewBox = new Fl_Box(0, 100, 100, 100);
+	m_previewBox = new Fl_Box(20, 100, 100, 100);
 	m_previewBox->box(FL_UP_BOX);
 	m_previewBox->image(m_previewImage);
 
@@ -58,15 +59,23 @@ void MnistUI::cb_preview_index_input(Fl_Widget* o, void* v)
 	m_UI->m_nPreviewIndex=atoi( ((Fl_Input *)o)->value() );
 	if (m_UI->m_imageBuffer)
 	{
-		delete m_UI->m_imageBuffer;
-		printf("delete\n");
+		delete[] m_UI->m_imageBuffer;
 	}
-	printf("currIndex:%d\n", m_UI->m_nPreviewIndex);
-	printf("label%d\n", m_UI->m_mnistDoc->getTrainLabel(m_UI->m_nPreviewIndex));
-	m_UI->m_imageBuffer = m_UI->m_mnistDoc->getTrainImage(m_UI->m_nPreviewIndex);
 
+	// convert unsigned char in to a const char* to int first hhh
+	int tmp =  m_UI->m_mnistDoc->getTrainLabel(m_UI->m_nPreviewIndex);
+	sprintf(&m_UI->m_cPreviewLabel,"%d", tmp);
+	
+	double * temp = m_UI->m_mnistDoc->getTrainImage(m_UI->m_nPreviewIndex);
+	m_UI->m_imageBuffer = new unsigned char[m_UI->m_mnistDoc->getSizeTrainImage()];
+	for (int i = 0; i < m_UI->m_mnistDoc->getSizeTrainImage(); ++i)
+	{
+		m_UI->m_imageBuffer[i] = 255 * temp[i];
+	}
+	delete[] temp;
 	delete m_UI->m_previewImage;
 	m_UI->m_previewImage = new Fl_RGB_Image(m_UI->m_imageBuffer, 28, 28, 1);
 	m_UI->m_previewBox->image(m_UI->m_previewImage);
+	m_UI->m_previewBox->label(&m_UI->m_cPreviewLabel);
 	m_UI->m_mainWindow->redraw();
 }

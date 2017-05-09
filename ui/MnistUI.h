@@ -29,6 +29,7 @@ private:
 	MnistDoc* m_mnistDoc;
 	static Fl_Menu_Item menuItems[];
 	int m_nPreviewIndex;
+	char m_cPreviewLabel;
 	unsigned char* m_imageBuffer;	
 };
 

@@ -4,7 +4,7 @@ CXXFLAGS=-I. -I/usr/local/include -O2 -std=c++11 -Wall
 LDFLAGS=$(shell fltk-config --ldflags --use-images)
 RM=rm -f
 MKDIR=mkdir -p
-SDIR=. ui util
+SDIR=. ui util model
 ODIR=obj
 OUT=mnist-demo
 
